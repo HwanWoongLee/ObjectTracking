@@ -20,25 +20,25 @@ public:
 
 
 private:
-	CTMatView*		m_pViewer			= nullptr;
-	CYoloModule*	m_pYolo				= nullptr;
+	CTMatView*			m_pViewer			= nullptr;
+	CYoloModule*		m_pYolo				= nullptr;
 
-	bool			m_bPlay				= false;
-	bool			m_bTracking			= false;
+	bool				m_bPlay				= false;
+	bool				m_bTracking			= false;
 
-	cv::Rect		m_rectSelected;
+	cv::Rect			m_rectSelected;
 
-	std::thread*	m_pThread;
+	std::thread*		m_pThread;
 
 protected:
-	HICON m_hIcon;
+	HICON				m_hIcon;
 
 	// 생성된 메시지 맵 함수
-	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
+	virtual BOOL		OnInitDialog();
+	afx_msg void		OnPaint();
+	afx_msg HCURSOR		OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void		OnBnClickedBtnPlayVideo();
-	afx_msg void OnBnClickedBtnSelect();
+	afx_msg void		OnBnClickedBtnSelect();
 };

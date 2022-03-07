@@ -23,7 +23,7 @@ CObjectTrackingDlg::CObjectTrackingDlg(CWnd* pParent /*=nullptr*/)
 }
 
 CObjectTrackingDlg::~CObjectTrackingDlg() {
-	if (m_pThread->joinable()) {
+	if (m_pThread && m_pThread->joinable()) {
 		m_pThread->join();
 		delete m_pThread;
 	}
@@ -119,19 +119,9 @@ void CObjectTrackingDlg::OnBnClickedBtnPlayVideo()
 		if (!cap.open(std::string(CT2CA(pathName))))
 			return;
 
-		cv::Mat image, dst;
-		
-		/*char buf[1024];
-		_fullpath(buf, "./cfg/yolov4.cfg", 1024);
-		printf(buf);*/
-
 		// YOLO Load
 		if (!m_pYolo) {
 			m_pYolo = new CYoloModule();
-			//if (!m_pYolo->LoadWeight("C:/Project/ObjectTracking/cfg/yolov4.cfg",
-			//	"C:/Project/ObjectTracking/model/yolov4.weights")) {
-			//	AfxMessageBox(_T("YOLO Model Load failed"));
-			//}
 			if (!m_pYolo->LoadWeight("./cfg/yolov4.cfg",
 				"./model/yolov4.weights")) {
 				AfxMessageBox(_T("YOLO Model Load failed"));
@@ -139,15 +129,20 @@ void CObjectTrackingDlg::OnBnClickedBtnPlayVideo()
 		}
 
 		// Tracker
-		std::vector<cv::Rect>	bboxes;
-		std::vector<TrackingBox> tResults;
-
+		std::vector<cv::Rect>				bboxes;
+		std::vector<TrackingBox>			tResults;
 		std::vector<std::vector<cv::Point>>	t_points(999);
 
 		SORT sort;
 		sort.SetParams(0.3, 0, 5, 3);
 
+		cv::Mat image, dst;
+
+		double dStartTime, dTotalTime;
+
 		while (true) {
+			dStartTime = GetTickCount64();
+
 			cap >> image;
 			if (image.empty())
 				break;
@@ -171,6 +166,14 @@ void CObjectTrackingDlg::OnBnClickedBtnPlayVideo()
 						cv::circle(dst, t_points[tResults[i].id][j], 5, rColor[tResults[i].id % 255], -1);
 					}
 				}
+			}
+
+			dTotalTime = GetTickCount64() - dStartTime;
+			if (dTotalTime != 0) {
+				cv::putText(dst, cv::format("FPS:%.1lf", 1. / dTotalTime * 1000), cv::Point(50, 50), 0, 1, cv::Scalar(0, 0, 255), 2);
+			}
+			else {
+				cv::putText(dst, "FPS:", cv::Point(50, 50), 0, 1, cv::Scalar(0, 0, 255), 2);
 			}
 
 			m_pViewer->SetImage(dst);
