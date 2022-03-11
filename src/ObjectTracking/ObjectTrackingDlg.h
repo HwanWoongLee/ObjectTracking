@@ -1,16 +1,14 @@
-﻿#include "CYoloModule.h"
-#pragma once
+﻿#pragma once
+#include "CYoloModule.h"
 
 
 class CTMatView;
 class CObjectTrackingDlg : public CDialogEx
 {
-// 생성입니다.
 public:
 	CObjectTrackingDlg(CWnd* pParent = nullptr);	// 표준 생성자입니다.
 	~CObjectTrackingDlg();
 
-// 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_OBJECTTRACKING_DIALOG };
 #endif
@@ -29,6 +27,9 @@ private:
 	cv::Rect			m_rectSelected;
 
 	std::thread*		m_pThread;
+
+	cv::VideoCapture	m_cap;
+	cv::Scalar			m_rColor[255];
 
 protected:
 	HICON				m_hIcon;

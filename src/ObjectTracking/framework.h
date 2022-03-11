@@ -18,7 +18,6 @@
 #include <afxdisp.h>        // MFC 자동화 클래스입니다.
 
 
-
 #ifndef _AFX_NO_OLE_SUPPORT
 #include <afxdtctl.h>           // Internet Explorer 4 공용 컨트롤에 대한 MFC 지원입니다.
 #endif
@@ -31,10 +30,6 @@
 #include <opencv2/opencv.hpp>
 
 
-
-
-
-
 #ifdef _UNICODE
 #if defined _M_IX86
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -44,5 +39,3 @@
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
 #endif
-
-
